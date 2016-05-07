@@ -5,9 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+var app = angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform, MFPInit) {
+app.run(function($ionicPlatform, MFPInit) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -24,7 +24,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -63,19 +63,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
-  .state('tab.lesson', {
-      url: '/lesson',
+  .state('tab.lessons', {
+      url: '/lessons',
       views: {
-        'tab-lesson': {
-          templateUrl: 'templates/tab-lesson.html',
-          controller: 'LessonCtrl'
+        'tab-lessons': {
+          templateUrl: 'templates/tab-lessons.html',
+          controller: 'LessonsCtrl'
         }
       }
     })
     .state('tab.lesson-detail', {
-      url: '/lesson/:lessonId',
+      url: '/lessons/:lessonId',
       views: {
-        'tab-lesson': {
+        'tab-lessons': {
           templateUrl: 'templates/lesson-detail.html',
           controller: 'LessonDetailCtrl'
         }

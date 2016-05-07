@@ -1,0 +1,16 @@
+<ion-view view-title="Lessons" ng-controller="LessonsCtrl">
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="lesson in lessons" type="item-text-wrap" href="#/tab/lessons/{{lesson.id}}">
+        <img ng-src="img/ben.png">
+        <h2>{{lesson.lessontable_name}}</h2>
+        <p>{{lesson.lessontable_description}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(lesson)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
