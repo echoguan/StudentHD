@@ -1,4 +1,4 @@
-package com.echo.studentHD;
+package com.echo..CanDemo;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

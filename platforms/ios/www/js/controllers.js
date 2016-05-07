@@ -269,9 +269,18 @@ angular.module('starter.controllers', [])
   .controller('LessonCtrl', function($scope, Lesson, MFPInit) {
     $scope.$on('$ionicView.enter', function() {
       MFPInit.then(function() { WL.Analytics.log({ AppView: 'Lesson' }, "visit lesson view"); console.log("lesson view enter") });
-    });
+    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
+    var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    req.send().then(function(resp){
+      $scope.lesson = JSON.parse(resp.responseText);
+      // alert("1req-lesson:" + $scope.lesson);
+    });  
+  });
+    
+    
 
-    $scope.lesson = Lesson.all();
+    // $scope.lesson = Lesson.all();
+    // alert("2ctrl-lesson:"+$scope.lesson);
     $scope.remove = function(lesson) {
       Lesson.remove(lesson);
     };

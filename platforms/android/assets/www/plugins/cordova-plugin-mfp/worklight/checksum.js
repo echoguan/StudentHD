@@ -1,1 +1,1 @@
-var WL_CHECKSUM = {"checksum":2684129891,"date":1462405415792,"machine":"localhost"}
+var WL_CHECKSUM = {"checksum":2684129891,"date":1462617707432,"machine":"guanxiaoqingdeMacBook-Pro.local"}

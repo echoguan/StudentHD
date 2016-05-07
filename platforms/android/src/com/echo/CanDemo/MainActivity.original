@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.echo.studentHD;
+package com.echo..CanDemo;
 
 import android.os.Bundle;
 import org.apache.cordova.*;

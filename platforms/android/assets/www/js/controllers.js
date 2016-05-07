@@ -60,10 +60,12 @@ angular.module('starter.controllers', [])
 
       resourceRequest.send().then(
         function(response) {
+          alert("success!!!!" + response);
           WL.Logger.debug("Balance: " + response.responseText);
           document.getElementById("resultBalance").innerHTML = "Balance: " + response.responseText;
         },
         function(response) {
+          alert("fail!!!!" + response);
           WL.Logger.debug("Failed to get balance: " + JSON.stringify(response));
           document.getElementById("resultBalance").innerHTML = "Failed to get balance.";
         });
@@ -221,41 +223,41 @@ angular.module('starter.controllers', [])
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  .controller('LoginCtrl', function($scope, $state, Auth, $ionicPopup) {
+    $scope.loginData = {};
+    
+    showAlert = function (title, message) {
+      var alertPopup = $ionicPopup.alert({
+        title : title,
+        template : message
+      });
+    }
+    
+    $scope.doLogin = function() {
+      if( !angular.isDefined($scope.loginData.username) || !angular.isDefined($scope.loginData.password) || $scope.loginData.username.trim() == "" || $scope.loginData.password.trim() == "") {
+        showAlert("登录失败","用户名或密码不能为空！");
+        return;
+      } else {
+        var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/loginConfirm/" + $scope.loginData.username + "/" + $scope.loginData.password;
+        var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+        req.send().then(function(resp){
+          if(resp.responseText == 'Success'){
+            Auth.setUser({
+              username : $scope.loginData.username
+            });
+            
+            $state.go('tab.account');
+          } else if(resp.responseText == 'PasswordWrong'){
+            showAlert("登录失败","密码错误！");
+          } else if(resp.responseText == 'NameWrong'){
+            showAlert("登录失败","用户名不存在！");
+          }
+        });
+      }
+    };
+    
+    
+  })
 
 
   .controller('DashCtrl', function($scope, MFPInit) {
@@ -264,29 +266,35 @@ angular.module('starter.controllers', [])
     });
   })
 
-  .controller('ChatsCtrl', function($scope, Chats, MFPInit) {
+  .controller('LessonCtrl', function($scope, Lesson, MFPInit) {
     $scope.$on('$ionicView.enter', function() {
-      MFPInit.then(function() { WL.Analytics.log({ AppView: 'Chat' }, "visit chat view"); console.log("chat view enter") });
+      MFPInit.then(function() { WL.Analytics.log({ AppView: 'Lesson' }, "visit lesson view"); console.log("lesson view enter") });
     });
 
-    $scope.chats = Chats.all();
-    $scope.remove = function(chat) {
-      Chats.remove(chat);
+    $scope.lesson = Lesson.all();
+    $scope.remove = function(lesson) {
+      Lesson.remove(lesson);
     };
   })
 
-  .controller('ChatDetailCtrl', function($scope, $stateParams, Chats, MFPInit) {
+  .controller('LessonDetailCtrl', function($scope, $stateParams, Lesson, MFPInit) {
     $scope.$on('$ionicView.enter', function() {
-      MFPInit.then(function() { WL.Analytics.log({ AppView: 'Chat Details' }, "visit Chat Details view"); console.log("chat details view enter") });
+      MFPInit.then(function() { WL.Analytics.log({ AppView: 'Lesson Details' }, "visit Lesson Details view"); console.log("lesson details view enter") });
     });
-    $scope.chat = Chats.get($stateParams.chatId);
+    $scope.oneLesson = Lesson.get($stateParams.lessonId);
   })
 
-  .controller('AccountCtrl', function($scope, MFPInit) {
+  .controller('AccountCtrl', function($scope, MFPInit, $state, Auth) {
+    $scope.username = Auth.getUser().username;
     $scope.$on('$ionicView.enter', function() {
       MFPInit.then(function() { WL.Analytics.log({ AppView: 'Account' }, "visit Account view"); console.log("account view enter") });
     });
     $scope.settings = {
       enableFriends: true
+    };
+    
+    $scope.logout = function() {
+      Auth.logout();
+      $state.go('login');
     };
   });

@@ -33,10 +33,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   $stateProvider
 
   // setup an abstract state for the tabs directive
-    .state('tab', {
+  .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'templates/tabs.html',
+    onEnter : function($state, Auth) {
+      if(!Auth.isLoggedIn()) {
+        $state.go('login');
+      }
+    }
+  })
+  
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'LoginCtrl',
+    cache: false
   })
 
   // Each tab has its own nav history stack:
@@ -51,21 +63,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.lesson', {
+      url: '/lesson',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-lesson': {
+          templateUrl: 'templates/tab-lesson.html',
+          controller: 'LessonCtrl'
         }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
+    .state('tab.lesson-detail', {
+      url: '/lesson/:lessonId',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+        'tab-lesson': {
+          templateUrl: 'templates/lesson-detail.html',
+          controller: 'LessonDetailCtrl'
         }
       }
     })
@@ -90,7 +102,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/mfp');
+  $urlRouterProvider.otherwise('/login');
 
 }).factory('MFPInit', function($q){
   /* Setup a Promise to allow code to run in other places anytime after MFP CLient SDK is ready
