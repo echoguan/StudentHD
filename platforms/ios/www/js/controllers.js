@@ -285,6 +285,7 @@ angular.module('starter.controllers', [])
   })
 
   .controller('AccountCtrl', function($scope, MFPInit, $state, Auth) {
+    $scope.username = Auth.getUser().username;
     $scope.$on('$ionicView.enter', function() {
       MFPInit.then(function() { WL.Analytics.log({ AppView: 'Account' }, "visit Account view"); console.log("account view enter") });
     });
