@@ -1,0 +1,44 @@
+<ion-view view-title="Ionic 1 + MFP 8">
+  <ion-content class="padding">
+    <small>{{serverurl}}</small>
+    <button ng-click="getPic()" class="button button-block button-calm">
+      Get Picture (MBS, Simulator, or Device)
+    </button>
+    <div class="item item-image">
+      <img id="myImage">
+    </div>
+    
+    <button ng-click="greetAdagetBalancepter()" class="button button-block button-positive">
+      Call Adapter (scope default)
+    </button>
+    <div id="resultGreet">
+    </div>
+    
+    <button ng-click="getBalance()" class="button button-block button-positive">
+      Call Adapter (scope accessRestricted)
+    </button>
+    <div id="resultBalance">
+    </div>
+    <button ng-click="doLogout()" class="button button-block button-positive">
+      logout
+    </button>
+    
+    <button ng-click="sendAnalytics()" class="button button-block button-positive">
+      send Analytics
+    </button>
+    
+    <button ng-click="isPushSupported()" class="button button-block button-positive">
+      isPush Supported? {{pushSupported}}
+    </button>
+    <button ng-click="registerDevice()" class="button button-block button-positive">
+      registerDevice {{registerDevice}}
+    </button>
+    <button ng-click="getSubscriptions()" class="button button-block button-positive">
+      getSubscriptions {{subscriptions}}
+    </button>
+    Push Message:{{message | json}}
+    
+    
+
+  </ion-content>
+</ion-view>
