@@ -30,9 +30,9 @@ angular.module('starter.services', ['ngCookies'])
     // var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
     // var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
     // req.send().then(function(resp){
-    //   alert("resp:" + resp.responseText);
+    //   // alert("resp:" + resp.responseText);
     //   var lessons = JSON.parse(resp.responseText);
-    //   alert("lesson1" + lessons);
+    //   // alert("lesson1:" + lessons);
     // });
     
     // alert("我能出来吗1");
@@ -63,9 +63,22 @@ angular.module('starter.services', ['ngCookies'])
 
     return {
       all: function() {
-        // alert("我能出来吗-return-all");
+        // alert("111");
+        // var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
+        // var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+        // req.send().then(function(resp){
+        //   // alert("resp:" + resp.responseText);
+        //   var lessons = JSON.parse(resp.responseText);
+        //   // alert("lesson1:" + lessons);
+        //   // alert("我能出来吗-return-all");
+        //   alert("all:"+ lessons);
+        //   return lessons;
+        // });
+        // // alert("222");
+        
         // alert("all:"+ lessons);
         return lessons;
+        
       },
       remove: function(lesson) {
         // alert("我能出来吗-return-remove");

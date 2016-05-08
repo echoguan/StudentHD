@@ -52,10 +52,10 @@ var appCtrl = angular.module('starter.controllers', [])
     // alert("LessonsCtrl执行");
     
     // alert("1");
-    $http.get("http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson").success(function (response) {
+    // $http.get("http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson").success(function (response) {
         // $scope.myWelcome = response.data;
         // alert("aaa出来啊："+response.data);
-    });
+    // });
     // alert("2");
     
     $scope.$on('$ionicView.enter', function() {
@@ -65,7 +65,7 @@ var appCtrl = angular.module('starter.controllers', [])
     // var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
     // var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
     // req.send().then(function(resp){
-    //   $scope.lesson = JSON.parse(resp.responseText);
+    //   $scope.lessons = JSON.parse(resp.responseText);
     //   // alert("1req-lesson:" + $scope.lesson);
     // });
 
