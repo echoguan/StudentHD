@@ -37,7 +37,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html',
-    controller: 'TabCtrl',
     onEnter : function($state, Auth) {
       if(!Auth.isLoggedIn()) {
         $state.go('login');
@@ -51,11 +50,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
     controller: 'LoginCtrl',
     cache: false
   })
+   .state('register', {
+      url: '/register',
+      cache: false, 
+      // views: {
+      //   'login': {
+          templateUrl: 'templates/register.html',
+          controller: 'RegisterCtrl'
+        // }
+      // }
+    })
 
   // Each tab has its own nav history stack:
 
   .state('tab.dash', {
     url: '/dash',
+    cache: false, 
     views: {
       'tab-dash': {
         templateUrl: 'templates/tab-dash.html',
@@ -66,6 +76,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   .state('tab.lessons', {
       url: '/lessons',
+      cache: false, 
       views: {
         'tab-lessons': {
           templateUrl: 'templates/tab-lessons.html',
@@ -75,6 +86,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('tab.lesson-detail', {
       url: '/lessons/:lessonId',
+      cache: false, 
       views: {
         'tab-lessons': {
           templateUrl: 'templates/lesson-detail.html',
@@ -85,6 +97,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   .state('tab.account', {
     url: '/account',
+    cache: false, 
     views: {
       'tab-account': {
         templateUrl: 'templates/tab-account.html',
@@ -94,6 +107,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   })
    .state('tab.my-lessons', {
       url: '/account/myLessons',
+      cache: false, 
       views: {
         'tab-account': {
           templateUrl: 'templates/my-lessons.html',
@@ -103,6 +117,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('tab.my-comments', {
       url: '/account/myComments',
+      cache: false, 
       views: {
         'tab-account': {
           templateUrl: 'templates/my-comments.html',

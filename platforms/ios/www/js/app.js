@@ -50,6 +50,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
     controller: 'LoginCtrl',
     cache: false
   })
+  .state('register', {
+    url: '/register',
+    cache: false, 
+    templateUrl: 'templates/register.html',
+    controller: 'RegisterCtrl'
+  })
 
   // Each tab has its own nav history stack:
 

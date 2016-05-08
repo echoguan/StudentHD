@@ -6,20 +6,17 @@ navigation history that also transitions its views in and out.
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
   <!-- Lesson Tab -->
-  <!--<ion-tab title="课程" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="#/tab/lessons" ng-click="refreshLessons()">-->
-  <ion-tab title="课程" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" ng-click="refreshLessons()">
+  <ion-tab title="课程" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="#/tab/lessons">
     <ion-nav-view name="tab-lessons"></ion-nav-view>
   </ion-tab>
 
   <!-- Dashboard Tab -->
-  <!--href="#/tab/dash" -->
-  <ion-tab title="公告" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" ng-click="refreshDash()>
+  <ion-tab title="公告" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/dash">
     <ion-nav-view name="tab-dash"></ion-nav-view>
   </ion-tab> 
 
   <!-- Account Tab -->
-  <!--href="#/tab/account" -->
-  <ion-tab title="我" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" ng-click="refreshAccount()>
+  <ion-tab title="我" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/account">
     <ion-nav-view name="tab-account"></ion-nav-view>
   </ion-tab>
   

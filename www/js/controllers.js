@@ -36,8 +36,35 @@ var appCtrl = angular.module('starter.controllers', [])
         });
       }
     };
+  })
+  
+  appCtrl.controller('RegisterCtrl', function($scope, $state, Auth, $ionicPopup) {
+    // alert("RegisterCtrl执行");
     
+    $scope.registerData = {};
     
+    showAlert = function (title, message) {
+      var alertPopup = $ionicPopup.alert({
+        title : title,
+        template : message
+      });
+    }
+    
+    $scope.register = function() {
+      if(!angular.isDefined($scope.registerData.username) || !angular.isDefined($scope.registerData.password) || !angular.isDefined($scope.registerData.repeatPassword) 
+          || $scope.registerData.username.trim() == "" || $scope.registerData.password.trim() == "" || $scope.registerData.repeatPassword.trim() == ""){
+        showAlert("注册失败","不能有空项！");
+        return;
+      } else if($scope.registerData.password != $scope.registerData.repeatPassword) {
+        showAlert("注册失败","两次密码不一致！");
+      } else {
+        var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/registerStudent/" + $scope.registerData.username + "/" + $scope.registerData.password;
+        var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+        req.send().then(function(resp){
+          alert("aaaaaaaaaaaaaaaaaaa"+resp);
+        });
+      }
+    };
   })
 
 
