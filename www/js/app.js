@@ -55,6 +55,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   .state('tab.dash', {
     url: '/dash',
+    cache: false, 
     views: {
       'tab-dash': {
         templateUrl: 'templates/tab-dash.html',
@@ -65,6 +66,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   .state('tab.lessons', {
       url: '/lessons',
+      cache: false, 
       views: {
         'tab-lessons': {
           templateUrl: 'templates/tab-lessons.html',
@@ -74,6 +76,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('tab.lesson-detail', {
       url: '/lessons/:lessonId',
+      cache: false, 
       views: {
         'tab-lessons': {
           templateUrl: 'templates/lesson-detail.html',
@@ -84,6 +87,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
   .state('tab.account', {
     url: '/account',
+    cache: false, 
     views: {
       'tab-account': {
         templateUrl: 'templates/tab-account.html',
@@ -93,6 +97,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
   })
    .state('tab.my-lessons', {
       url: '/account/myLessons',
+      cache: false, 
       views: {
         'tab-account': {
           templateUrl: 'templates/my-lessons.html',
@@ -102,6 +107,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('tab.my-comments', {
       url: '/account/myComments',
+      cache: false, 
       views: {
         'tab-account': {
           templateUrl: 'templates/my-comments.html',

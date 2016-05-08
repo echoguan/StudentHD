@@ -10,7 +10,7 @@ WL.StaticAppProps = {
   "LANGUAGE_PREFERENCES": "en",
   "ENVIRONMENT": "preview",
   "PREVIEW_ENVIRONMENT": "android",
-  "PREVIEW_ROOT_URL": "http://192.168.0.113:9080/mfp/",
+  "PREVIEW_ROOT_URL": "http://192.168.0.103:9080/mfp/",
   "APP_SERVICES_URL": "/mfp/apps/services/",
   "POSTFIX_APP_SERVICES_URL": "/mfp/apps/services/",
   "WORKLIGHT_ROOT_URL": "/mfp/apps/services/api/StudentHD/android/",
