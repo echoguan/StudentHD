@@ -34,9 +34,9 @@ var appCtrl = angular.module('starter.controllers', [])
           } else if(resp.responseText == 'NameWrong'){
             showAlert("登录失败","用户名不存在！");
           }
-          $state.go('tab.account', null, {
-              reload: true
-            });
+          // $state.go('tab.account', null, {
+          //     reload: true
+          //   });
           
           // Auth.setUser({
           //   username : "echo"
@@ -84,8 +84,10 @@ var appCtrl = angular.module('starter.controllers', [])
     });
   })
 
-  appCtrl.controller('LessonsCtrl', function($scope, Lessons, MFPInit,$http) {
-    // alert("LessonsCtrl执行");
+  appCtrl.controller('LessonsCtrl', function($scope, MFPInit) {
+    alert("LessonsCtrl执行");
+    
+    $scope.title = "Blogs";
     
     // alert("1");
     // $http.get("http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson").success(function (response) {
@@ -94,24 +96,84 @@ var appCtrl = angular.module('starter.controllers', [])
     // });
     // alert("2");
     
-    $scope.$on('$ionicView.enter', function() {
-      MFPInit.then(function() { WL.Analytics.log({ AppView: 'Lesson' }, "visit lesson view"); console.log("lesson view enter") });
+    // $scope.$on('$ionicView.enter', function() {
+    //   MFPInit.then(function() { WL.Analytics.log({ AppView: 'Lesson' }, "visit lesson view"); console.log("lesson view enter") });
+    // });
+    
+    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
+    var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    req.send().then(function(resp){
+      $scope.lessons = JSON.parse(resp.responseText);
+      // $scope.lessons = resp.responseText;
+      
+    //   var lessons1 = [
+    //   {
+    //     "lessontable_name": "高等数学",
+    //     "lessontable_key": "数学",
+    //     "lessontable_description": "大学基础数学课程，提高逻辑思维和分析解决问题能力。",
+    //     "id": "1"
+    //   },
+    //   {
+    //     "lessontable_name": "大学体育",
+    //     "lessontable_key": "体育",
+    //     "lessontable_description": "大学基础课程，进行体育锻炼，增强身体素质。",
+    //     "id": "2"
+    //   },
+    //   {
+    //     "lessontable_name": "形式与政策",
+    //     "lessontable_key": "政治",
+    //     "lessontable_description": "了解当代的全方面形式与政策",
+    //     "id": "3"
+    //   },
+    //   {
+    //     "lessontable_name": "大学英语",
+    //     "lessontable_key": "英语",
+    //     "lessontable_description": "提高学生英语口语和写作能力",
+    //     "id": "4"
+    //   },
+    //   {
+    //     "lessontable_name": "大学生就业",
+    //     "lessontable_key": "素质",
+    //     "lessontable_description": "指导大学生走向社会以及就业",
+    //     "id": "5"
+    //   }
+    // ];
+      
+      alert("LessonsCtrl-resp-lesson:" + resp.responseText);
+      alert("LessonsCtrl-scope-lesson:" + $scope.lessons);
+      // alert("LessonsCtrl-hard-lessons:" + lessons1);
     });
     
-    // var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
-    // var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
-    // req.send().then(function(resp){
-    //   $scope.lessons = JSON.parse(resp.responseText);
-    //   // alert("1req-lesson:" + $scope.lesson);
-    // });
+    // $scope.lessons = [
+    //     {
+    //       "lessontable_name": "高等数学",
+    //       "lessontable_key": "数学",
+    //       "lessontable_description": "大学基础数学课程，提高逻辑思维和分析解决问题能力。",
+    //       "id": "1"
+    //     },
+    //     {
+    //       "lessontable_name": "大学生就业",
+    //       "lessontable_key": "就业",
+    //       "lessontable_description": "指导大学生就业与工作",
+    //       "id": "2"
+    //     },
+    //     {
+    //       "lessontable_name": "大学体育",
+    //       "lessontable_key": "体育",
+    //       "lessontable_description": "大学基础课程，进行体育锻炼，增强身体素质。",
+    //       "id": "3"
+    //     }
+    // ];
+    
+    // alert("LessonsCtrl-scope-lesson!!:" + $scope.lessons);
 
-    $scope.lessons = Lessons.all();
+    // $scope.lessons = Lessons.all();
     
     // alert("2ctrl-lesson:"+$scope.lesson);
     
-    $scope.remove = function(lesson) {
-      Lessons.remove(lesson);
-    };
+    // $scope.remove = function(lesson) {
+    //   Lessons.remove(lesson);
+    // };
     
     // $scope.remove = function(lesson) {
     //   lessons.splice(lessons.indexOf(lesson), 1);
@@ -135,7 +197,7 @@ var appCtrl = angular.module('starter.controllers', [])
     // };
     // $scope.lesson = $scope.get($stateParams.lessonId-1);
     
-    $scope.lesson = Lessons.get($stateParams.lessonId-1);
+    // $scope.lesson = Lessons.get($stateParams.lessonId-1);
   })
 
   appCtrl.controller('AccountCtrl', function($scope, MFPInit, $state, Auth) {
