@@ -13,6 +13,7 @@ var appCtrl = angular.module('starter.controllers', [])
     }
     
     $scope.doLogin = function() {
+      // alert("!!");
       if( !angular.isDefined($scope.loginData.username) || !angular.isDefined($scope.loginData.password) || $scope.loginData.username.trim() == "" || $scope.loginData.password.trim() == "") {
         showAlert("登录失败","用户名或密码不能为空！");
         return;
@@ -25,7 +26,7 @@ var appCtrl = angular.module('starter.controllers', [])
               username : $scope.loginData.username
             });
             
-            $state.go('tab.account', null, {
+            $state.go('tab.lessons', null, {
               reload: true
             });
           } else if(resp.responseText == 'PasswordWrong'){
@@ -33,6 +34,14 @@ var appCtrl = angular.module('starter.controllers', [])
           } else if(resp.responseText == 'NameWrong'){
             showAlert("登录失败","用户名不存在！");
           }
+          $state.go('tab.account', null, {
+              reload: true
+            });
+          
+          // Auth.setUser({
+          //   username : "echo"
+          // });
+          // $state.go('tab.lessons');
         });
       }
     };
@@ -97,10 +106,17 @@ var appCtrl = angular.module('starter.controllers', [])
     // });
 
     $scope.lessons = Lessons.all();
+    
     // alert("2ctrl-lesson:"+$scope.lesson);
+    
     $scope.remove = function(lesson) {
       Lessons.remove(lesson);
     };
+    
+    // $scope.remove = function(lesson) {
+    //   lessons.splice(lessons.indexOf(lesson), 1);
+    // };
+
   })
 
   appCtrl.controller('LessonDetailCtrl', function($scope, $stateParams, Lessons, MFPInit) {
@@ -108,6 +124,17 @@ var appCtrl = angular.module('starter.controllers', [])
     $scope.$on('$ionicView.enter', function() {
       MFPInit.then(function() { WL.Analytics.log({ AppView: 'Lesson Details' }, "visit Lesson Details view"); console.log("lesson details view enter") });
     });
+    
+    // $scope.get = function(lessonId) {
+    //   for (var i = 0; i < lessons.length; i++) {
+    //     if ((lessons[i].id-1) === parseInt(lessonId)) {
+    //       return lessons[i];
+    //     }
+    //   }
+    //   return null;
+    // };
+    // $scope.lesson = $scope.get($stateParams.lessonId-1);
+    
     $scope.lesson = Lessons.get($stateParams.lessonId-1);
   })
 

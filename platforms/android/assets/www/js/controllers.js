@@ -13,35 +13,66 @@ var appCtrl = angular.module('starter.controllers', [])
     }
     
     $scope.doLogin = function() {
-      if( !angular.isDefined($scope.loginData.username) || !angular.isDefined($scope.loginData.password) || $scope.loginData.username.trim() == "" || $scope.loginData.password.trim() == "") {
-        showAlert("登录失败","用户名或密码不能为空！");
-        return;
-      } else {
-        var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/loginConfirm/" + $scope.loginData.username + "/" + $scope.loginData.password;
-        var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
-        req.send().then(function(resp){
-          if(resp.responseText == 'Success'){
-            Auth.setUser({
-              username : $scope.loginData.username
-            });
+      alert("!!")
+      // if( !angular.isDefined($scope.loginData.username) || !angular.isDefined($scope.loginData.password) || $scope.loginData.username.trim() == "" || $scope.loginData.password.trim() == "") {
+      //   showAlert("登录失败","用户名或密码不能为空！");
+      //   return;
+      // } else {
+      //   var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/loginConfirm/" + $scope.loginData.username + "/" + $scope.loginData.password;
+      //   var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+      //   req.send().then(function(resp){
+          // if(resp.responseText == 'Success'){
+          //   Auth.setUser({
+          //     username : $scope.loginData.username
+          //   });
             
-            $state.go('tab.account', null, {
-              reload: true
+          //   $state.go('tab.account', null, {
+          //     reload: true
+          //   });
+          // } else if(resp.responseText == 'PasswordWrong'){
+          //   showAlert("登录失败","密码错误！");
+          // } else if(resp.responseText == 'NameWrong'){
+          //   showAlert("登录失败","用户名不存在！");
+          // }
+          // $state.go('tab.account', null, {
+          //     reload: true
+          //   });
+          
+          Auth.setUser({
+              username : "echo"
             });
-          } else if(resp.responseText == 'PasswordWrong'){
-            showAlert("登录失败","密码错误！");
-          } else if(resp.responseText == 'NameWrong'){
-            showAlert("登录失败","用户名不存在！");
-          }
-        });
-      }
+            $state.go('tab.account');
+        // });
+      // }
     };
   })
   
   appCtrl.controller('RegisterCtrl', function($scope, $state, Auth, $ionicPopup) {
     // alert("RegisterCtrl执行");
+    
+    $scope.registerData = {};
+    
+    showAlert = function (title, message) {
+      var alertPopup = $ionicPopup.alert({
+        title : title,
+        template : message
+      });
+    }
+    
     $scope.register = function() {
-      alert("注册啦");
+      if(!angular.isDefined($scope.registerData.username) || !angular.isDefined($scope.registerData.password) || !angular.isDefined($scope.registerData.repeatPassword) 
+          || $scope.registerData.username.trim() == "" || $scope.registerData.password.trim() == "" || $scope.registerData.repeatPassword.trim() == ""){
+        showAlert("注册失败","不能有空项！");
+        return;
+      } else if($scope.registerData.password != $scope.registerData.repeatPassword) {
+        showAlert("注册失败","两次密码不一致！");
+      } else {
+        var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/registerStudent/" + $scope.registerData.username + "/" + $scope.registerData.password;
+        var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+        req.send().then(function(resp){
+          alert("aaaaaaaaaaaaaaaaaaa"+resp);
+        });
+      }
     };
   })
 

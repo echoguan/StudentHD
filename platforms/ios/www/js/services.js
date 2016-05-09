@@ -24,18 +24,24 @@ angular.module('starter.services', ['ngCookies'])
 
 .factory('Lessons', function() {
     
-    // alert("!!!!");
-    // Might use a resource here that returns a JSON array
-    
     // var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
     // var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
     // req.send().then(function(resp){
-    //   // alert("resp:" + resp.responseText);
+    //   for(var i in resp){
+    //     alert(i+"-------"+resp[i]);
+    //   }
+    //   alert("resp!!!!!:" + resp.responseText);
+      
     //   var lessons = JSON.parse(resp.responseText);
-    //   // alert("lesson1:" + lessons);
+      
+    //   alert("lesson!!!!!:" + lessons);
     // });
     
+    
+    
     // alert("我能出来吗1");
+    
+    
     
     var lessons = [
         {
@@ -58,25 +64,38 @@ angular.module('starter.services', ['ngCookies'])
         }
     ];
     
+    
+    
     // alert("我能出来吗2");
     // alert("lesson2:" + lessons);
 
     return {
       all: function() {
-        // alert("111");
+        alert("122aaaaaa");
         // var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
         // var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
         // req.send().then(function(resp){
-        //   // alert("resp:" + resp.responseText);
+        //    //MFPInit.then(function() { WL.Analytics.log({ AppView: 'Status' }, "visit status view2"); console.log("2") });
+        //    alert("resp:" + resp.responseText);
         //   var lessons = JSON.parse(resp.responseText);
-        //   // alert("lesson1:" + lessons);
+        //   console.log("lesson1:" + lessons);
         //   // alert("我能出来吗-return-all");
         //   alert("all:"+ lessons);
         //   return lessons;
+        // },function(resp){
+        //  //. MFPInit.then(function() { WL.Analytics.log({ AppView: 'Status' }, "visit status view1"); console.log("1") });
+        //   for(var i in resp){
+        //     alert(i+"-------"+resp[i]);
+        //   }
+        //   //alert("fail"+ resp);
+        //   console.log(resp);
+          
         // });
-        // // alert("222");
         
-        // alert("all:"+ lessons);
+        // alert("222");
+        alert("bbbbbbbbbb");
+        alert("all!!!!!:"+ lessons);
+        alert("ccccccccc");
         return lessons;
         
       },
