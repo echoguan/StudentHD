@@ -78,13 +78,6 @@ var appCtrl = angular.module('starter.controllers', [])
   appCtrl.controller('LessonsCtrl', function($scope, MFPInit,$http) {
     // alert("LessonsCtrl执行");
     
-    // alert("1");
-    // $http.get("http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson").success(function (response) {
-        // $scope.myWelcome = response.data;
-        // alert("aaa出来啊："+response.data);
-    // });
-    // alert("2");
-    
     $scope.$on('$ionicView.enter', function() {
       MFPInit.then(function() { WL.Analytics.log({ AppView: 'Lesson' }, "visit lesson view"); console.log("lesson view enter") });
     });
@@ -93,7 +86,7 @@ var appCtrl = angular.module('starter.controllers', [])
     var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
     req.send().then(function(resp){
       $scope.lessons = JSON.parse(resp.responseText);
-      // alert("1req-lesson:" + $scope.lesson);
+      // alert("1req-lesson:" + $scope.lessons);
     });
 
     // $scope.lessons = Lessons.all();
@@ -104,11 +97,25 @@ var appCtrl = angular.module('starter.controllers', [])
   })
 
   appCtrl.controller('LessonDetailCtrl', function($scope, $stateParams, MFPInit) {
-    // alert("LessonDetailCtrl执行");
+    // alert("1-LessonDetailCtrl执行");
     $scope.$on('$ionicView.enter', function() {
       MFPInit.then(function() { WL.Analytics.log({ AppView: 'Lesson Details' }, "visit Lesson Details view"); console.log("lesson details view enter") });
     });
-    // $scope.lesson = Lessons.get($stateParams.lessonId-1);
+    
+      
+    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
+    var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    req.send().then(function(resp){
+      $scope.lessons = JSON.parse(resp.responseText);
+      for (var i = 0; i < $scope.lessons.length; i++) {
+        // alert("7你进到循环里了吗？"+$scope.lessons.length);
+        if (($scope.lessons[i].id-1) === parseInt($stateParams.lessonId-1)) {
+          // alert("你进到if里了吗？");
+          // alert("lessons[i]:"+$scope.lessons[i]);
+          $scope.lesson = $scope.lessons[i];
+        }
+      }
+    });
   })
 
   appCtrl.controller('AccountCtrl', function($scope, MFPInit, $state, Auth) {
