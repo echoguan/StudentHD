@@ -92,12 +92,19 @@ var appCtrl = angular.module('starter.controllers', [])
     });
   })
 
-  appCtrl.controller('LessonsCtrl', function($scope, MFPInit, Auth, $stateParams) {
+  appCtrl.controller('LessonsCtrl', function($scope, MFPInit, Auth, $ionicPopup) {
     // alert("LessonsCtrl执行");
     
     $scope.$on('$ionicView.enter', function() {
       MFPInit.then(function() { WL.Analytics.log({ AppView: 'Lesson' }, "visit lesson view"); console.log("lesson view enter") });
     });
+    
+    showAlert = function (title, message) {
+      var alertPopup = $ionicPopup.alert({
+        title : title,
+        template : message
+      });
+    }
     
     var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
     var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
@@ -109,7 +116,31 @@ var appCtrl = angular.module('starter.controllers', [])
     
     $scope.addFavorite = function(lesson) {
       $scope.userID = Auth.getUserID().userID;
-      alert("我要订阅它！！"+$scope.userID+"--"+lesson.id);
+      // alert("我要订阅它！！"+$scope.userID+"--"+lesson.id);
+      //http://localhost:9080/mfp/api/adapters/JavaSQL/API/isCollect/1/1
+      var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/isCollect/"+ lesson.id +"/"+ $scope.userID;
+      var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+      req.send().then(function(resp){
+        // alert("resp.responseText:" + resp.responseText);
+        if(resp.responseText>0) {
+          // alert("您已订阅过该课程");
+          showAlert("提示","您已订阅过该课程，可直接在个人主页已订阅课程中查看该课程。");
+        } else {
+          // alert("您可以订阅该课程啦");
+          //http://localhost:9080/mfp/api/adapters/JavaSQL/API/collectLesson/2/4
+          var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/collectLesson/"+ lesson.id +"/"+ $scope.userID;
+          var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+          req.send().then(function(resp){
+            // alert("111resp.status:" + resp.status);
+            if(resp.status == 200){
+              showAlert("订阅成功","订阅成功，您现在可直接在个人主页已订阅课程中查看该课程。");
+            } else {
+              showAlert("订阅失败","订阅失败，请重试");
+              // alert("订阅失败，请重试");
+            }
+          });
+        }
+      });
       
     };
 
