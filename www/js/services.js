@@ -2,9 +2,17 @@ angular.module('starter.services', ['ngCookies'])
 
 .factory('Auth', function($cookieStore) {
   var _user = $cookieStore.get('starter.user');
-  var setUser = function(user) {
+  var _userID = $cookieStore.get('starter.userID');
+  var setUser = function(user, userID) {
     _user = user;
+    _userID = userID;
     $cookieStore.put('starter.user', _user);
+    $cookieStore.put('starter.userID', _userID);
+    // for(var i in userID){
+    //   alert(i+"---!----"+userID[i]);
+    // }
+    // alert("_user"+_user);
+    // alert("_userID"+_userID);
   }
   
   return {
@@ -13,10 +21,19 @@ angular.module('starter.services', ['ngCookies'])
       return _user ? true : false;
     },
     getUser : function() {
+      // alert("getUser"+_user.username1);
       return _user;
+    },
+    getUserID : function() {
+      // alert("getUserID"+_userID.userID);
+      // for(var i in _userID){
+      //   alert(i+"-------"+_userID[i]);
+      // }
+      return _userID;
     },
     logout : function() {
       $cookieStore.remove('starter.user');
+      //!!!!!!!!!!!
       _user = null;
     }
   }

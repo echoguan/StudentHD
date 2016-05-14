@@ -13,21 +13,38 @@ var appCtrl = angular.module('starter.controllers', [])
     }
     
     $scope.doLogin = function() {
+      // alert("aaa1122dd");
       if( !angular.isDefined($scope.loginData.username) || !angular.isDefined($scope.loginData.password) || $scope.loginData.username.trim() == "" || $scope.loginData.password.trim() == "") {
         showAlert("登录失败","用户名或密码不能为空！");
         return;
       } else {
+        // alert("22进来了吗？？！！:");
         var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/loginConfirm/" + $scope.loginData.username + "/" + $scope.loginData.password;
         var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
         req.send().then(function(resp){
           if(resp.responseText == 'Success'){
-            Auth.setUser({
-              username : $scope.loginData.username
+            // alert("33进来了吗？？！！:");
+            var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getStudentID/" + $scope.loginData.username;
+            var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+            req.send().then(function(resp){
+              // alert("进来了吗？？！！:");
+              $scope.studentID = resp.responseText;
+              // alert("$scope.loginData.username:"+$scope.loginData.username);
+              // alert("$scope.studentID:"+$scope.studentID);
+              Auth.setUser(
+                {
+                  username1 : $scope.loginData.username
+                },
+                {
+                  userID : $scope.studentID
+                }
+              );
+              $state.go('tab.account', null, {
+                reload: true
+              });
             });
+
             
-            $state.go('tab.account', null, {
-              reload: true
-            });
           } else if(resp.responseText == 'PasswordWrong'){
             showAlert("登录失败","密码错误！");
           } else if(resp.responseText == 'NameWrong'){
@@ -75,7 +92,7 @@ var appCtrl = angular.module('starter.controllers', [])
     });
   })
 
-  appCtrl.controller('LessonsCtrl', function($scope, MFPInit,$http) {
+  appCtrl.controller('LessonsCtrl', function($scope, MFPInit, Auth, $stateParams) {
     // alert("LessonsCtrl执行");
     
     $scope.$on('$ionicView.enter', function() {
@@ -88,6 +105,12 @@ var appCtrl = angular.module('starter.controllers', [])
       $scope.lessons = JSON.parse(resp.responseText);
       // alert("1req-lesson:" + $scope.lessons);
     });
+    
+    
+    $scope.addFavorite = function(lesson) {
+      $scope.userID = Auth.getUserID().userID;
+      alert("我要订阅它！！"+$scope.userID+"--"+lesson.id);
+    };
 
     // $scope.lessons = Lessons.all();
     // alert("2ctrl-lesson:"+$scope.lesson);
@@ -120,7 +143,8 @@ var appCtrl = angular.module('starter.controllers', [])
 
   appCtrl.controller('AccountCtrl', function($scope, MFPInit, $state, Auth) {
     // alert("AccountCtrl执行");
-    $scope.username = Auth.getUser().username;
+    $scope.username = Auth.getUser().username1;
+    $scope.userID = Auth.getUserID().userID;
     $scope.$on('$ionicView.enter', function() {
       MFPInit.then(function() { WL.Analytics.log({ AppView: 'Account' }, "visit Account view"); console.log("account view enter") });
     });
