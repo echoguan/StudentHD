@@ -111,6 +111,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+      .state('tab.myCollectLesson-detail', {
+        url: '/account/myLessons/:lessonId',
+        cache: false, 
+        views: {
+          'tab.my-lessons': {
+            templateUrl: 'templates/myCollectLesson-detail.html',
+            controller: 'myCollectLessonDetailCtrl'
+          }
+        }
+      })
+      
     .state('tab.my-comments', {
       url: '/account/myComments',
       cache: false, 

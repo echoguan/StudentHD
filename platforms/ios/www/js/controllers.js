@@ -188,14 +188,51 @@ var appCtrl = angular.module('starter.controllers', [])
       Auth.logout();
       $state.go('login');
     };
+    
+    //http://localhost:9080/mfp/api/adapters/JavaSQL/API/getMyCollectLesson/4
+    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getMyCollectLesson/"+$scope.userID;
+    var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    req.send().then(function(resp){
+      $scope.myLessons = JSON.parse(resp.responseText);
+      // alert("1req-lesson:" + $scope.lessons);
+    });
   });
   
-  appCtrl.controller('MyLessonsCtrl', function($scope, $stateParams, MFPInit) {
+  appCtrl.controller('MyLessonsCtrl', function($scope, MFPInit, Auth) {
     // alert("MyLessonsCtrl执行");
     $scope.$on('$ionicView.enter', function() {
       MFPInit.then(function() { WL.Analytics.log({ AppView: 'My Lessons' }, "visit My Lessons view"); console.log("my lessons view enter") });
     });
+    
+    $scope.userID = Auth.getUserID().userID;
+    
+    //http://localhost:9080/mfp/api/adapters/JavaSQL/API/getMyCollectLesson/4
+    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getMyCollectLesson/"+$scope.userID;
+    var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    req.send().then(function(resp){
+      $scope.myLessons = JSON.parse(resp.responseText);
+      // alert("1req-lesson:" + $scope.lessons);
+    });
   });
+  
+  appCtrl.controller('myCollectLessonDetailCtrl', function($scope, $stateParams, MFPInit, Auth) {
+    alert("myCollectLessonDetailCtrl执行");
+    $scope.$on('$ionicView.enter', function() {
+      MFPInit.then(function() { WL.Analytics.log({ AppView: 'Lesson Details' }, "visit Lesson Details view"); console.log("lesson details view enter") });
+    });
+    
+    // $scope.userID = Auth.getUserID().userID;  
+    // var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getMyCollectLesson/"+$scope.userID;
+    // var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    // req.send().then(function(resp){
+    //   $scope.myLessons = JSON.parse(resp.responseText);
+    //   for (var i = 0; i < $scope.myLessons.length; i++) {
+    //     if (($scope.myLessons[i].id-1) === parseInt($stateParams.lessonId-1)) {
+    //       $scope.lesson = $scope.myLessons[i];
+    //     }
+    //   }
+    // });
+  })
   
   appCtrl.controller('MyCommentsCtrl', function($scope, $stateParams, MFPInit) {
     // alert("MyCommentsCtrl执行");
