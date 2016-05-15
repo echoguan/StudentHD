@@ -112,10 +112,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     })
       .state('tab.myCollectLesson-detail', {
-        url: '/account/myLessons/:lessonId',
+        url: '/account/:lessonId',
         cache: false, 
         views: {
-          'tab.my-lessons': {
+          'tab-account': {
             templateUrl: 'templates/myCollectLesson-detail.html',
             controller: 'myCollectLessonDetailCtrl'
           }
