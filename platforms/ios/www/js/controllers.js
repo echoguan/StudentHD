@@ -198,7 +198,7 @@ var appCtrl = angular.module('starter.controllers', [])
     });
   });
   
-  appCtrl.controller('MyLessonsCtrl', function($scope, MFPInit, Auth) {
+  appCtrl.controller('MyLessonsCtrl', function($scope, MFPInit, Auth, $ionicPopup) {
     // alert("MyLessonsCtrl执行");
     $scope.$on('$ionicView.enter', function() {
       MFPInit.then(function() { WL.Analytics.log({ AppView: 'My Lessons' }, "visit My Lessons view"); console.log("my lessons view enter") });
@@ -213,10 +213,42 @@ var appCtrl = angular.module('starter.controllers', [])
       $scope.myLessons = JSON.parse(resp.responseText);
       // alert("1req-lesson:" + $scope.lessons);
     });
+    
+    
+    showAlert = function (title, message) {
+      var alertPopup = $ionicPopup.alert({
+        title : title,
+        template : message
+      });
+    }
+    
+    //http://localhost:9080/mfp/api/adapters/JavaSQL/API/deleteCollect/2/4
+    $scope.removeCollect = function(lesson) {
+      // alert("取消订阅");
+      $scope.userID = Auth.getUserID().userID;
+      // alert("我要取消订阅它！！"+$scope.userID+"--"+lesson.id);
+      var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/deleteCollect/"+ lesson.id +"/"+ $scope.userID;
+      var req = new WLResourceRequest(adapterURL, WLResourceRequest.DELETE);
+      req.send().then(function(resp){
+        // alert("111resp.status:" + resp.status);
+        if(resp.status == 200){
+          showAlert("成功","取消订阅该课程成功。");
+          var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getMyCollectLesson/"+$scope.userID;
+          var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+          req.send().then(function(resp){
+            $scope.myLessons = JSON.parse(resp.responseText);
+            // alert("1req-lesson:" + $scope.lessons);
+          });
+        } else {
+          showAlert("失败","取消订阅失败，请重试");
+          // alert("订阅失败，请重试");
+        }
+      });
+    }
   });
   
   appCtrl.controller('myCollectLessonDetailCtrl', function($scope, $stateParams, MFPInit, Auth) {
-    alert("myCollectLessonDetailCtrl执行");
+    // alert("myCollectLessonDetailCtrl执行");
     $scope.$on('$ionicView.enter', function() {
       MFPInit.then(function() { WL.Analytics.log({ AppView: 'Lesson Details' }, "visit Lesson Details view"); console.log("lesson details view enter") });
     });
@@ -232,6 +264,7 @@ var appCtrl = angular.module('starter.controllers', [])
         }
       }
     });
+    
   })
   
   appCtrl.controller('MyCommentsCtrl', function($scope, $stateParams, MFPInit) {

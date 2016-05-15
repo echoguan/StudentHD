@@ -198,7 +198,7 @@ var appCtrl = angular.module('starter.controllers', [])
     });
   });
   
-  appCtrl.controller('MyLessonsCtrl', function($scope, MFPInit, Auth) {
+  appCtrl.controller('MyLessonsCtrl', function($scope, MFPInit, Auth, $ionicPopup) {
     // alert("MyLessonsCtrl执行");
     $scope.$on('$ionicView.enter', function() {
       MFPInit.then(function() { WL.Analytics.log({ AppView: 'My Lessons' }, "visit My Lessons view"); console.log("my lessons view enter") });
@@ -213,6 +213,36 @@ var appCtrl = angular.module('starter.controllers', [])
       $scope.myLessons = JSON.parse(resp.responseText);
       // alert("1req-lesson:" + $scope.lessons);
     });
+    
+    
+    showAlert = function (title, message) {
+      var alertPopup = $ionicPopup.alert({
+        title : title,
+        template : message
+      });
+    }
+    
+    //http://localhost:9080/mfp/api/adapters/JavaSQL/API/deleteCollect/2/4
+    $scope.removeCollect = function(lesson) {
+      // alert("取消订阅");
+      $scope.userID = Auth.getUserID().userID;
+      // alert("我要取消订阅它！！"+$scope.userID+"--"+lesson.id);
+      var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/deleteCollect/"+ lesson.id +"/"+ $scope.userID;
+      var req = new WLResourceRequest(adapterURL, WLResourceRequest.DELETE);
+      req.send().then(function(resp){
+        // alert("111resp.status:" + resp.status);
+        if(resp.status == 200){
+          showAlert("成功","取消订阅该课程成功。");
+          var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getMyCollectLesson/"+$scope.userID;
+          var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+          req.send().then(function(resp){
+            $scope.myLessons = JSON.parse(resp.responseText);
+          });
+        } else {
+          showAlert("失败","取消订阅失败，请重试");
+        }
+      });
+    }
   });
   
   appCtrl.controller('myCollectLessonDetailCtrl', function($scope, $stateParams, MFPInit, Auth) {
@@ -232,42 +262,6 @@ var appCtrl = angular.module('starter.controllers', [])
         }
       }
     });
-    
-    showAlert = function (title, message) {
-      var alertPopup = $ionicPopup.alert({
-        title : title,
-        template : message
-      });
-    }
-    
-    // $scope.removeCollect = function(lesson) {
-    //   $scope.userID = Auth.getUserID().userID;
-    //   // alert("我要订阅它！！"+$scope.userID+"--"+lesson.id);
-    //   //http://localhost:9080/mfp/api/adapters/JavaSQL/API/isCollect/1/1
-    //   var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/isCollect/"+ lesson.id +"/"+ $scope.userID;
-    //   var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
-    //   req.send().then(function(resp){
-    //     // alert("resp.responseText:" + resp.responseText);
-    //     if(resp.responseText>0) {
-    //       // alert("您已订阅过该课程");
-    //       showAlert("提示","您已订阅过该课程，可直接在个人主页已订阅课程中查看该课程。");
-    //     } else {
-    //       // alert("您可以订阅该课程啦");
-    //       //http://localhost:9080/mfp/api/adapters/JavaSQL/API/collectLesson/2/4
-    //       var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/collectLesson/"+ lesson.id +"/"+ $scope.userID;
-    //       var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
-    //       req.send().then(function(resp){
-    //         // alert("111resp.status:" + resp.status);
-    //         if(resp.status == 200){
-    //           showAlert("订阅成功","订阅成功，您现在可直接在个人主页已订阅课程中查看该课程。");
-    //         } else {
-    //           showAlert("订阅失败","订阅失败，请重试");
-    //           // alert("订阅失败，请重试");
-    //         }
-    //       });
-    //     }
-    //   });
-    // };
     
   })
   
