@@ -111,17 +111,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-      .state('tab.myCollectLesson-detail', {
-        url: '/account/:lessonId',
-        cache: false, 
-        views: {
-          'tab-account': {
-            templateUrl: 'templates/myCollectLesson-detail.html',
-            controller: 'myCollectLessonDetailCtrl'
-          }
-        }
-      })
-      
+    
     .state('tab.my-comments', {
       url: '/account/myComments',
       cache: false, 
@@ -132,6 +122,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    
+    
+      .state('tab.myCollectLesson-detail', {
+        url: '/account/:lessonId',
+        cache: false, 
+        views: {
+          'tab-account': {
+            templateUrl: 'templates/lesson-detail.html',
+            controller: 'myCollectLessonDetailCtrl'
+          }
+        }
+      })
+      
+    
     
     
   .state('tab.mfp', {

@@ -106,7 +106,7 @@ var appCtrl = angular.module('starter.controllers', [])
       });
     }
     
-    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
+    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getAllLesson";
     var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
     req.send().then(function(resp){
       $scope.lessons = JSON.parse(resp.responseText);
@@ -158,7 +158,7 @@ var appCtrl = angular.module('starter.controllers', [])
     });
     
       
-    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
+    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getAllLesson";
     var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
     req.send().then(function(resp){
       $scope.lessons = JSON.parse(resp.responseText);
@@ -189,13 +189,13 @@ var appCtrl = angular.module('starter.controllers', [])
       $state.go('login');
     };
     
-    //http://localhost:9080/mfp/api/adapters/JavaSQL/API/getMyCollectLesson/4
-    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getMyCollectLesson/"+$scope.userID;
-    var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
-    req.send().then(function(resp){
-      $scope.myLessons = JSON.parse(resp.responseText);
-      // alert("1req-lesson:" + $scope.lessons);
-    });
+    // //http://localhost:9080/mfp/api/adapters/JavaSQL/API/getMyCollectLesson/4
+    // var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getMyCollectLesson/"+$scope.userID;
+    // var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    // req.send().then(function(resp){
+    //   $scope.myLessons = JSON.parse(resp.responseText);
+    //   // alert("1req-lesson:" + $scope.lessons);
+    // });
   });
   
   appCtrl.controller('MyLessonsCtrl', function($scope, MFPInit, Auth, $ionicPopup) {
@@ -237,14 +237,17 @@ var appCtrl = angular.module('starter.controllers', [])
           var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
           req.send().then(function(resp){
             $scope.myLessons = JSON.parse(resp.responseText);
-            // alert("1req-lesson:" + $scope.lessons);
           });
         } else {
           showAlert("失败","取消订阅失败，请重试");
-          // alert("订阅失败，请重试");
         }
       });
     }
+  });
+  
+    
+  appCtrl.controller('MyCommentsCtrl', function($scope, $stateParams, MFPInit) {
+    // alert("MyCommentsCtrl执行");
   });
   
   appCtrl.controller('myCollectLessonDetailCtrl', function($scope, $stateParams, MFPInit, Auth) {
@@ -265,9 +268,6 @@ var appCtrl = angular.module('starter.controllers', [])
       }
     });
     
-  })
-  
-  appCtrl.controller('MyCommentsCtrl', function($scope, $stateParams, MFPInit) {
-    // alert("MyCommentsCtrl执行");
   });
+
   
