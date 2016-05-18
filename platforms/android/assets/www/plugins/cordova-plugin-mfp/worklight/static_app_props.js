@@ -3,14 +3,14 @@
 console.log("Running static_app_props.js...");
 var WL = WL ? WL : {};
 WL.StaticAppProps = {
-  "APP_ID": "com.echo..CanDemo",
+  "APP_ID": "com.echo.studentHD",
   "APP_VERSION": "1.0.0",
   "WORKLIGHT_PLATFORM_VERSION": "8.0.0.00-20160328-0234",
   "WORKLIGHT_NATIVE_VERSION": "209521667",
   "LANGUAGE_PREFERENCES": "en",
   "ENVIRONMENT": "preview",
   "PREVIEW_ENVIRONMENT": "android",
-  "PREVIEW_ROOT_URL": "http://192.168.0.103:9080/mfp/",
+  "PREVIEW_ROOT_URL": "http://10.2.20.46:9080/mfp/",
   "APP_SERVICES_URL": "/mfp/apps/services/",
   "POSTFIX_APP_SERVICES_URL": "/mfp/apps/services/",
   "WORKLIGHT_ROOT_URL": "/mfp/apps/services/api/StudentHD/android/",

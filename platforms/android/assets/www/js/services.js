@@ -2,9 +2,17 @@ angular.module('starter.services', ['ngCookies'])
 
 .factory('Auth', function($cookieStore) {
   var _user = $cookieStore.get('starter.user');
-  var setUser = function(user) {
+  var _userID = $cookieStore.get('starter.userID');
+  var setUser = function(user, userID) {
     _user = user;
+    _userID = userID;
     $cookieStore.put('starter.user', _user);
+    $cookieStore.put('starter.userID', _userID);
+    // for(var i in userID){
+    //   alert(i+"---!----"+userID[i]);
+    // }
+    // alert("_user"+_user);
+    // alert("_userID"+_userID);
   }
   
   return {
@@ -13,16 +21,25 @@ angular.module('starter.services', ['ngCookies'])
       return _user ? true : false;
     },
     getUser : function() {
+      // alert("getUser"+_user.username1);
       return _user;
+    },
+    getUserID : function() {
+      // alert("getUserID"+_userID.userID);
+      // for(var i in _userID){
+      //   alert(i+"-------"+_userID[i]);
+      // }
+      return _userID;
     },
     logout : function() {
       $cookieStore.remove('starter.user');
+      //!!!!!!!!!!!
       _user = null;
     }
   }
 })
 
-.factory('Lessons', function() {
+// .factory('Lessons', function() {
     
     // alert("!!!!");
     // Might use a resource here that returns a JSON array
@@ -32,7 +49,7 @@ angular.module('starter.services', ['ngCookies'])
     // req.send().then(function(resp){
     //   // alert("resp:" + resp.responseText);
     //   var lessons = JSON.parse(resp.responseText);
-    //   // alert("lesson1:" + lessons);
+    //   alert("lesson1:" + lessons);
     // });
     
     // alert("我能出来吗1");
@@ -61,43 +78,24 @@ angular.module('starter.services', ['ngCookies'])
     // alert("我能出来吗2");
     // alert("lesson2:" + lessons);
 
-    return {
-      all: function() {
-        alert("122");
-        var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLesson";
-        var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
-        req.send().then(function(resp){
-           MFPInit.then(function() { WL.Analytics.log({ AppView: 'Status' }, "visit status view2"); console.log("2") });
-           alert("resp:" + resp.responseText);
-          var lessons = JSON.parse(resp.responseText);
-          console.log("lesson1:" + lessons);
-          // alert("我能出来吗-return-all");
-          alert("all:"+ lessons);
-          return lessons;
-        },function(resp){
-          MFPInit.then(function() { WL.Analytics.log({ AppView: 'Status' }, "visit status view1"); console.log("1") });
-          alert("fail")
-          console.log(resp);
-          
-        });
-        // alert("222");
+    // return {
+      // all: function() {
+      //   // alert("all:"+ lessons);
+      //   return lessons;
         
-        // alert("all:"+ lessons);
-        // return lessons;
-        
-      },
-      remove: function(lesson) {
-        // alert("我能出来吗-return-remove");
-        lessons.splice(lessons.indexOf(lesson), 1);
-      },
-      get: function(lessonId) {
-        // alert("我能出来吗-return-get");
-        for (var i = 0; i < lessons.length; i++) {
-          if ((lessons[i].id-1) === parseInt(lessonId)) {
-            return lessons[i];
-          }
-        }
-        return null;
-      }
-    };
-  });
+      // },
+      // remove: function(lesson) {
+      //   // alert("我能出来吗-return-remove");
+      //   lessons.splice(lessons.indexOf(lesson), 1);
+      // },
+      // get: function(lessonId) {
+      //   // alert("我能出来吗-return-get");
+      //   for (var i = 0; i < lessons.length; i++) {
+      //     if ((lessons[i].id-1) === parseInt(lessonId)) {
+      //       return lessons[i];
+      //     }
+      //   }
+      //   return null;
+      // }
+    // };
+  // });

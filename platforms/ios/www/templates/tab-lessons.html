@@ -3,7 +3,7 @@
     <!--title:{{title}}
     {{lessons[0].lessontable_name}}-->
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="lesson in lessons" type="item-text-wrap" href="#/tab/lessons/{{lesson.id}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="lesson in lessons" type="item-text-wrap" href="#/tab/lessons/detail/{{lesson.id}}">
         <img ng-src="img/ben.png">
         <h2>{{lesson.lessontable_name}}</h2>
         <p>{{lesson.lessontable_description}}</p>

@@ -57,19 +57,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
     controller: 'RegisterCtrl'
   })
 
-  // Each tab has its own nav history stack:
-
-  .state('tab.dash', {
-    url: '/dash',
-    cache: false, 
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
-
   .state('tab.lessons', {
       url: '/lessons',
       cache: false, 
@@ -81,12 +68,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     })
     .state('tab.lesson-detail', {
-      url: '/lessons/:lessonId',
+      url: '/lessons/detail/:lessonId',
       cache: false, 
       views: {
         'tab-lessons': {
           templateUrl: 'templates/lesson-detail.html',
           controller: 'LessonDetailCtrl'
+        }
+      }
+    })
+    .state('tab.lesson-notice', {
+      url: '/lessons/notice/:lessonId',
+      cache: false, 
+      views: {
+        'tab-lessons': {
+          templateUrl: 'templates/lesson-notice.html',
+          controller: 'NoticeCtrl'
         }
       }
     })
@@ -125,28 +122,27 @@ app.config(function($stateProvider, $urlRouterProvider) {
     
     
       .state('tab.myCollectLesson-detail', {
-        url: '/account/:lessonId',
+        url: '/account/detail/:lessonId',
         cache: false, 
         views: {
           'tab-account': {
-            templateUrl: 'templates/lesson-detail.html',
+            templateUrl: 'templates/myCollectLesson-detail.html',
             controller: 'myCollectLessonDetailCtrl'
           }
         }
       })
       
-    
-    
-    
-  .state('tab.mfp', {
-    url: '/mfp',
-    views: {
-      'tab-mfp': {
-        templateUrl: 'templates/tab-mfp.html',
-        controller: 'MfpCtrl'
-      }
-    }
-  });
+      .state('tab.collectLesson-notice', {
+        url: '/account/notice/:lessonId',
+        cache: false, 
+        views: {
+          'tab-account': {
+            templateUrl: 'templates/lesson-notice.html',
+            controller: 'NoticeCtrl'
+          }
+        }
+      })
+      
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');

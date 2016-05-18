@@ -84,14 +84,6 @@ var appCtrl = angular.module('starter.controllers', [])
     };
   })
 
-
-  appCtrl.controller('DashCtrl', function($scope, MFPInit) {
-    // alert("DashCtrl执行");
-    $scope.$on('$ionicView.enter', function() {
-      MFPInit.then(function() { WL.Analytics.log({ AppView: 'Status' }, "visit status view"); console.log("status view enter") });
-    });
-  })
-
   appCtrl.controller('LessonsCtrl', function($scope, MFPInit, Auth, $ionicPopup) {
     // alert("LessonsCtrl执行");
     
@@ -245,6 +237,20 @@ var appCtrl = angular.module('starter.controllers', [])
     }
   });
   
+  
+  appCtrl.controller('NoticeCtrl', function($scope, $stateParams, MFPInit) {
+    // alert("NoticeCtrl执行");
+
+    // alert("parseInt($stateParams.lessonId):" + parseInt($stateParams.lessonId));
+    
+    //http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLessonNotice/1
+    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLessonNotice/"+parseInt($stateParams.lessonId);
+    var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    req.send().then(function(resp){
+      $scope.notices = JSON.parse(resp.responseText);
+      // alert("1req-lesson:" + $scope.lessons);
+    });
+  });
     
   appCtrl.controller('MyCommentsCtrl', function($scope, $stateParams, MFPInit) {
     // alert("MyCommentsCtrl执行");

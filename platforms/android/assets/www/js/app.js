@@ -57,19 +57,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
     controller: 'RegisterCtrl'
   })
 
-  // Each tab has its own nav history stack:
-
-  .state('tab.dash', {
-    url: '/dash',
-    cache: false, 
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
-
   .state('tab.lessons', {
       url: '/lessons',
       cache: false, 
@@ -111,6 +98,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    
     .state('tab.my-comments', {
       url: '/account/myComments',
       cache: false, 
@@ -123,15 +111,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     
     
-  .state('tab.mfp', {
-    url: '/mfp',
-    views: {
-      'tab-mfp': {
-        templateUrl: 'templates/tab-mfp.html',
-        controller: 'MfpCtrl'
-      }
-    }
-  });
+      .state('tab.myCollectLesson-detail', {
+        url: '/account/:lessonId',
+        cache: false, 
+        views: {
+          'tab-account': {
+            templateUrl: 'templates/lesson-detail.html',
+            controller: 'myCollectLessonDetailCtrl'
+          }
+        }
+      })
+      
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');

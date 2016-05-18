@@ -1,7 +1,7 @@
 <ion-view view-title="已订阅课程">
   <ion-content>
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="lesson in myLessons" type="item-text-wrap" href="#/tab/account/{{lesson.id}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="lesson in myLessons" type="item-text-wrap" href="#/tab/account/detail/{{lesson.id}}">
         <img ng-src="img/ben.png">
         <h2>{{lesson.lessontable_name}}</h2>
         <p>{{lesson.lessontable_description}}</p>
