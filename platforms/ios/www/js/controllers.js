@@ -78,10 +78,27 @@ var appCtrl = angular.module('starter.controllers', [])
       } else if($scope.registerData.password != $scope.registerData.repeatPassword) {
         showAlert("注册失败","两次密码不一致！");
       } else {
-        var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/registerStudent/" + $scope.registerData.username + "/" + $scope.registerData.password;
+        var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/isStudentName/"+ $scope.registerData.username;
         var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
         req.send().then(function(resp){
-          alert("aaaaaaaaaaaaaaaaaaa"+resp);
+          // alert("resp.responseText:" + resp.responseText);
+          if(resp.responseText>0) {
+            showAlert("注册失败","该用户名已存在，请重新填写");
+          } else {
+            var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/registerStudent/" + $scope.registerData.username + "/" + $scope.registerData.password;
+            var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+            req.send().then(function(resp){
+              if(resp.status == 200){
+                showAlert("注册成功","注册成功，您现在可以使用本账号登录了");
+                var disappear = "true";
+                if(disappear === "true"){
+                  $state.go('login');
+                }
+              } else {
+                showAlert("注册失败","注册失败，请重试");
+              }
+            });
+          }
         });
       }
     };
@@ -263,11 +280,65 @@ var appCtrl = angular.module('starter.controllers', [])
   });
   
   //课程-订阅-提问区控制器
-  appCtrl.controller('LessonCommentCtrl', function($scope, $stateParams, MFPInit) {
+  appCtrl.controller('LessonCommentCtrl', function($scope, $stateParams, MFPInit, Auth, $ionicPopup) {
     // alert("LessonCommentCtrl执行");
 
     // alert("parseInt($stateParams.lessonId):" + parseInt($stateParams.lessonId));
+    
+    showAlert = function (title, message) {
+      var alertPopup = $ionicPopup.alert({
+        title : title,
+        template : message
+      });
+    }
 
+    $scope.questionData = {};
+    $scope.userID = Auth.getUserID().userID;
+    
+    $scope.getCurrentDate = function(){
+      var date = new Date();
+      var seperator1 = "-";
+      var seperator2 = ":";
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+          month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+          strDate = "0" + strDate;
+      }
+      var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+              + " " + date.getHours() + seperator2 + date.getMinutes()
+              + seperator2 + date.getSeconds();
+      return currentdate;
+    }
+    
+    $scope.addQuestion = function(){
+      $scope.currentDate = $scope.getCurrentDate();
+      alert("提问：" + $scope.questionData.title +"-"+ $scope.questionData.description +"-"+ $scope.userID +"-"+ parseInt($stateParams.lessonId));
+      alert("time:" + $scope.currentDate);
+      
+      //http://localhost:9080/mfp/api/adapters/JavaSQL/API/addQuestion/
+      var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/addQuestion/"+ parseInt($stateParams.lessonId) +"/"+ $scope.userID +"/"+ $scope.questionData.title +"/"+ $scope.questionData.description +"/"+ $scope.currentDate;
+      alert(1);
+      var req = new WLResourceRequest(adapterURL, WLResourceRequest.POST);
+      alert(2);
+      req.send().then(
+        function(resp){
+          // alert("111resp.status:" + resp.status);
+          if(resp.status == 200){
+            showAlert("成功","取消订阅该课程成功。");
+          } else {
+            showAlert("失败","取消订阅失败，请重试");
+          }
+      },
+      function(error) { 
+        alert(3);
+        alert(error);
+      }
+      );
+    }
+    
     // http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLessonQuestion/1
     var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLessonQuestion/"+parseInt($stateParams.lessonId);
     var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
