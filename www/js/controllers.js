@@ -292,48 +292,26 @@ var appCtrl = angular.module('starter.controllers', [])
     $scope.questionData = {};
     $scope.userID = Auth.getUserID().userID;
     
-    $scope.getCurrentDate = function(){
-      var date = new Date();
-      var seperator1 = "-";
-      var seperator2 = ":";
-      var month = date.getMonth() + 1;
-      var strDate = date.getDate();
-      if (month >= 1 && month <= 9) {
-          month = "0" + month;
-      }
-      if (strDate >= 0 && strDate <= 9) {
-          strDate = "0" + strDate;
-      }
-      var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-              + " " + date.getHours() + seperator2 + date.getMinutes()
-              + seperator2 + date.getSeconds();
-      return currentdate;
-    }
-    
     $scope.addQuestion = function(){
-      $scope.currentDate = $scope.getCurrentDate();
-      alert("提问：" + $scope.questionData.title +"-"+ $scope.questionData.description +"-"+ $scope.userID +"-"+ parseInt($stateParams.lessonId));
-      alert("time:" + $scope.currentDate);
+      // alert("提问：" + $scope.questionData.title +"-"+ $scope.questionData.description +"-"+ $scope.userID +"-"+ parseInt($stateParams.lessonId));
       
       //http://localhost:9080/mfp/api/adapters/JavaSQL/API/addQuestion/
-      var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/addQuestion/"+ parseInt($stateParams.lessonId) +"/"+ $scope.userID +"/"+ $scope.questionData.title +"/"+ $scope.questionData.description +"/"+ $scope.currentDate;
-      alert(1);
+      var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/addQuestion/"+ parseInt($stateParams.lessonId) +"/"+ $scope.userID +"/"+ $scope.questionData.title +"/"+ $scope.questionData.description;
       var req = new WLResourceRequest(adapterURL, WLResourceRequest.POST);
-      alert(2);
-      req.send().then(
-        function(resp){
+      req.send().then(function(resp){
           // alert("111resp.status:" + resp.status);
           if(resp.status == 200){
-            showAlert("成功","取消订阅该课程成功。");
+            showAlert("成功","您已提问成功！");
+            var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLessonQuestion/"+parseInt($stateParams.lessonId);
+            var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+            req.send().then(function(resp){
+              $scope.questions = JSON.parse(resp.responseText);
+              // alert("1req-lesson:" + $scope.lessons);
+            });
           } else {
-            showAlert("失败","取消订阅失败，请重试");
+            showAlert("失败","提问失败，请重试！");
           }
-      },
-      function(error) { 
-        alert(3);
-        alert(error);
-      }
-      );
+      });
     }
     
     // http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLessonQuestion/1
