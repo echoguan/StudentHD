@@ -87,6 +87,28 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    
+    .state('tab.lesson-comment', {
+      url: '/lessons/comment/:lessonId',
+      cache: false, 
+      views: {
+        'tab-lessons': {
+          templateUrl: 'templates/lesson-comment.html',
+          controller: 'LessonCommentCtrl'
+        }
+      }
+    })
+    
+    .state('tab.lesson-comment-detail', {
+      url: '/lessons/commentDetail/:questionId',
+      cache: false, 
+      views: {
+        'tab-lessons': {
+          templateUrl: 'templates/lesson-comment-detail.html',
+          controller: 'LessonCommentDetailCtrl'
+        }
+      }
+    })
 
   .state('tab.account', {
     url: '/account',
@@ -142,6 +164,28 @@ app.config(function($stateProvider, $urlRouterProvider) {
           }
         }
       })
+      
+      .state('tab.collectLesson-comment', {
+        url: '/account/comment/:lessonId',
+        cache: false, 
+        views: {
+          'tab-account': {
+            templateUrl: 'templates/collectLesson-comment.html',
+            controller: 'LessonCommentCtrl'
+          }
+        }
+      })
+      
+      .state('tab.collectLesson-comment-detail', {
+      url: '/account/commentDetail/:questionId',
+      cache: false, 
+      views: {
+        'tab-account': {
+          templateUrl: 'templates/lesson-comment-detail.html',
+          controller: 'LessonCommentDetailCtrl'
+        }
+      }
+    })
       
 
   // if none of the above states are matched, use this as the fallback

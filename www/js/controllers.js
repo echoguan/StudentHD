@@ -1,6 +1,7 @@
 // <reference path="plugins/cordova-plugin-mfp-push/typings/mfppush.d.ts"/>
 var appCtrl = angular.module('starter.controllers', [])
-
+  
+  //登录界面控制器
   appCtrl.controller('LoginCtrl', function($scope, $state, Auth, $ionicPopup) {
     // alert("LoginCtrl执行");
     $scope.loginData = {};
@@ -55,6 +56,8 @@ var appCtrl = angular.module('starter.controllers', [])
     };
   })
   
+  
+  //注册界面控制器
   appCtrl.controller('RegisterCtrl', function($scope, $state, Auth, $ionicPopup) {
     // alert("RegisterCtrl执行");
     
@@ -84,6 +87,7 @@ var appCtrl = angular.module('starter.controllers', [])
     };
   })
 
+  //课程列表界面控制器
   appCtrl.controller('LessonsCtrl', function($scope, MFPInit, Auth, $ionicPopup) {
     // alert("LessonsCtrl执行");
     
@@ -143,6 +147,8 @@ var appCtrl = angular.module('starter.controllers', [])
     // };
   })
 
+
+  //课程详细页控制器
   appCtrl.controller('LessonDetailCtrl', function($scope, $stateParams, MFPInit) {
     // alert("1-LessonDetailCtrl执行");
     $scope.$on('$ionicView.enter', function() {
@@ -165,6 +171,8 @@ var appCtrl = angular.module('starter.controllers', [])
     });
   })
 
+
+  //个人主页控制器
   appCtrl.controller('AccountCtrl', function($scope, MFPInit, $state, Auth) {
     // alert("AccountCtrl执行");
     $scope.username = Auth.getUser().username1;
@@ -190,6 +198,8 @@ var appCtrl = angular.module('starter.controllers', [])
     // });
   });
   
+  
+  //已订阅课程控制器
   appCtrl.controller('MyLessonsCtrl', function($scope, MFPInit, Auth, $ionicPopup) {
     // alert("MyLessonsCtrl执行");
     $scope.$on('$ionicView.enter', function() {
@@ -237,7 +247,7 @@ var appCtrl = angular.module('starter.controllers', [])
     }
   });
   
-  
+  //课程-订阅-公告区控制器
   appCtrl.controller('NoticeCtrl', function($scope, $stateParams, MFPInit) {
     // alert("NoticeCtrl执行");
 
@@ -251,11 +261,45 @@ var appCtrl = angular.module('starter.controllers', [])
       // alert("1req-lesson:" + $scope.lessons);
     });
   });
+  
+  //课程-订阅-提问区控制器
+  appCtrl.controller('LessonCommentCtrl', function($scope, $stateParams, MFPInit) {
+    // alert("LessonCommentCtrl执行");
+
+    // alert("parseInt($stateParams.lessonId):" + parseInt($stateParams.lessonId));
+
+    // http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLessonQuestion/1
+    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLessonQuestion/"+parseInt($stateParams.lessonId);
+    var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    req.send().then(function(resp){
+      $scope.questions = JSON.parse(resp.responseText);
+      // alert("1req-lesson:" + $scope.lessons);
+    });
+  });
+  
+  //课程-订阅-提问详情控制器
+  appCtrl.controller('LessonCommentDetailCtrl', function($scope, $stateParams, MFPInit) {
+    // alert("LessonCommentDetailCtrl执行");
+
+    // alert("parseInt($stateParams.questionId):" + parseInt($stateParams.questionId));
     
+    //http://localhost:9080/mfp/api/adapters/JavaSQL/API/getOneQuestion/1
+    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getOneQuestion/"+parseInt($stateParams.questionId);
+    var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    req.send().then(function(resp){
+      $scope.question = JSON.parse(resp.responseText);
+      // alert("resp.responseText:" + resp.responseText);
+    });
+  });
+    
+    
+  //我的提问控制器
   appCtrl.controller('MyCommentsCtrl', function($scope, $stateParams, MFPInit) {
     // alert("MyCommentsCtrl执行");
   });
   
+  
+  //订阅-课程详细页控制器
   appCtrl.controller('myCollectLessonDetailCtrl', function($scope, $stateParams, MFPInit, Auth) {
     // alert("myCollectLessonDetailCtrl执行");
     $scope.$on('$ionicView.enter', function() {

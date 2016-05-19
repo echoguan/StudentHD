@@ -1,0 +1,26 @@
+<ion-view view-title="{{question.lesson_question_title}}">
+  <ion-content class="padding">
+    <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+            <input type="text" placeholder="Email">
+        </label>
+        <button class="button button-small">
+            Submit
+        </button>
+    </div>
+    <div class="card">
+        <div class="item item-divider">
+            <b>提问学生：</b>{{question.student_name}}
+        </div>
+        <div class="item item-text-wrap">
+            <b>标题：</b>{{question.lesson_question_title}}
+        </div>
+        <div class="item item-text-wrap">
+            <b>描述：</b>{{question.lesson_question_description}}
+        </div>
+        <div class="item item-divider">
+            {{question.lesson_question_time}}
+        </div>
+    </div>
+  </ion-content>
+</ion-view>
