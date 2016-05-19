@@ -297,7 +297,9 @@ var appCtrl = angular.module('starter.controllers', [])
       
       //http://localhost:9080/mfp/api/adapters/JavaSQL/API/addQuestion/
       var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/addQuestion/"+ parseInt($stateParams.lessonId) +"/"+ $scope.userID +"/"+ $scope.questionData.title +"/"+ $scope.questionData.description;
-      var req = new WLResourceRequest(adapterURL, WLResourceRequest.POST);
+      adapterURL = encodeURI(encodeURI(adapterURL));
+      var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+      // alert("adapterURL" + adapterURL);
       req.send().then(function(resp){
           // alert("111resp.status:" + resp.status);
           if(resp.status == 200){
