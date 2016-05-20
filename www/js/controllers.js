@@ -21,11 +21,13 @@ var appCtrl = angular.module('starter.controllers', [])
       } else {
         // alert("22进来了吗？？！！:");
         var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/loginConfirm/" + $scope.loginData.username + "/" + $scope.loginData.password;
+        adapterURL = encodeURI(encodeURI(adapterURL));
         var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
         req.send().then(function(resp){
           if(resp.responseText == 'Success'){
             // alert("33进来了吗？？！！:");
             var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getStudentID/" + $scope.loginData.username;
+            adapterURL = encodeURI(encodeURI(adapterURL));
             var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
             req.send().then(function(resp){
               // alert("进来了吗？？！！:");
@@ -79,6 +81,7 @@ var appCtrl = angular.module('starter.controllers', [])
         showAlert("注册失败","两次密码不一致！");
       } else {
         var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/isStudentName/"+ $scope.registerData.username;
+        adapterURL = encodeURI(encodeURI(adapterURL));
         var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
         req.send().then(function(resp){
           // alert("resp.responseText:" + resp.responseText);
@@ -86,6 +89,7 @@ var appCtrl = angular.module('starter.controllers', [])
             showAlert("注册失败","该用户名已存在，请重新填写");
           } else {
             var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/registerStudent/" + $scope.registerData.username + "/" + $scope.registerData.password;
+            adapterURL = encodeURI(encodeURI(adapterURL));
             var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
             req.send().then(function(resp){
               if(resp.status == 200){
