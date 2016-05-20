@@ -300,24 +300,31 @@ var appCtrl = angular.module('starter.controllers', [])
       // alert("提问：" + $scope.questionData.title +"-"+ $scope.questionData.description +"-"+ $scope.userID +"-"+ parseInt($stateParams.lessonId));
       
       //http://localhost:9080/mfp/api/adapters/JavaSQL/API/addQuestion/
-      var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/addQuestion/"+ parseInt($stateParams.lessonId) +"/"+ $scope.userID +"/"+ $scope.questionData.title +"/"+ $scope.questionData.description;
-      adapterURL = encodeURI(encodeURI(adapterURL));
-      var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
-      // alert("adapterURL" + adapterURL);
-      req.send().then(function(resp){
-          // alert("111resp.status:" + resp.status);
-          if(resp.status == 200){
-            showAlert("成功","您已提问成功！");
-            var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLessonQuestion/"+parseInt($stateParams.lessonId);
-            var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
-            req.send().then(function(resp){
-              $scope.questions = JSON.parse(resp.responseText);
-              // alert("1req-lesson:" + $scope.lessons);
-            });
-          } else {
-            showAlert("失败","提问失败，请重试！");
-          }
-      });
+      if( !angular.isDefined($scope.questionData.title) || !angular.isDefined($scope.questionData.description) || $scope.questionData.title.trim() == "" || $scope.questionData.description.trim() == "") {
+        showAlert("失败","问题标题或描述不能为空！");
+        return;
+      } else {
+        var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/addQuestion/"+ parseInt($stateParams.lessonId) +"/"+ $scope.userID +"/"+ $scope.questionData.title +"/"+ $scope.questionData.description;
+        adapterURL = encodeURI(encodeURI(adapterURL));
+        var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+        // alert("adapterURL" + adapterURL);
+        req.send().then(function(resp){
+            // alert("111resp.status:" + resp.status);
+            if(resp.status == 200){
+              showAlert("成功","您已提问成功！");
+              $scope.questionData.title = null;
+              $scope.questionData.description = null;
+              var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLessonQuestion/"+parseInt($stateParams.lessonId);
+              var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+              req.send().then(function(resp){
+                $scope.questions = JSON.parse(resp.responseText);
+                // alert("1req-lesson:" + $scope.lessons);
+              });
+            } else {
+              showAlert("失败","提问失败，请重试！");
+            }
+        });
+      }
     }
     
     // http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLessonQuestion/1
@@ -330,10 +337,53 @@ var appCtrl = angular.module('starter.controllers', [])
   });
   
   //课程-订阅-提问详情控制器
-  appCtrl.controller('LessonCommentDetailCtrl', function($scope, $stateParams, MFPInit) {
+  appCtrl.controller('LessonCommentDetailCtrl', function($scope, $stateParams, MFPInit, Auth, $ionicPopup) {
     // alert("LessonCommentDetailCtrl执行");
 
     // alert("parseInt($stateParams.questionId):" + parseInt($stateParams.questionId));
+    
+    // showAlert = function (title, message) {
+    //   var alertPopup = $ionicPopup.alert({
+    //     title : title,
+    //     template : message
+    //   });
+    // }
+
+    // $scope.questionData = {};
+    // $scope.userID = Auth.getUserID().userID;
+    
+    // $scope.addComment = function(){
+    //   // alert("111111111" + $scope.questionData.comment);
+    //   // alert("提问：" + $scope.questionData.title +"-"+ $scope.questionData.description +"-"+ $scope.userID +"-"+ parseInt($stateParams.lessonId));
+      
+    //   //http://localhost:9080/mfp/api/adapters/JavaSQL/API/addQuestion/
+    //   if( !angular.isDefined($scope.questionData.comment) || $scope.questionData.comment.trim() == "") {
+    //     showAlert("失败","问题标题或描述不能为空！");
+    //     return;
+    //   } else {
+    //     alert("加评论吧");
+    //     // var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/addQuestion/"+ parseInt($stateParams.lessonId) +"/"+ $scope.userID +"/"+ $scope.questionData.title +"/"+ $scope.questionData.description;
+    //     // adapterURL = encodeURI(encodeURI(adapterURL));
+    //     // var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    //     // // alert("adapterURL" + adapterURL);
+    //     // req.send().then(function(resp){
+    //     //     // alert("111resp.status:" + resp.status);
+    //     //     if(resp.status == 200){
+    //     //       showAlert("成功","您已提问成功！");
+    //     //       $scope.questionData.title = null;
+    //     //       $scope.questionData.description = null;
+    //     //       var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getLessonQuestion/"+parseInt($stateParams.lessonId);
+    //     //       var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    //     //       req.send().then(function(resp){
+    //     //         $scope.questions = JSON.parse(resp.responseText);
+    //     //         // alert("1req-lesson:" + $scope.lessons);
+    //     //       });
+    //     //     } else {
+    //     //       showAlert("失败","提问失败，请重试！");
+    //     //     }
+    //     // });
+    //   }
+    // }
     
     //http://localhost:9080/mfp/api/adapters/JavaSQL/API/getOneQuestion/1
     var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getOneQuestion/"+parseInt($stateParams.questionId);
@@ -342,12 +392,56 @@ var appCtrl = angular.module('starter.controllers', [])
       $scope.question = JSON.parse(resp.responseText);
       // alert("resp.responseText:" + resp.responseText);
     });
+    
+    //http://localhost:9080/mfp/api/adapters/JavaSQL/API/getOneQuestion/1
+    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getQuestionComment/"+parseInt($stateParams.questionId);
+    var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    req.send().then(function(resp){
+      $scope.comments = JSON.parse(resp.responseText);
+      // alert("resp.responseText:" + resp.responseText);
+    });
   });
     
     
   //我的提问控制器
-  appCtrl.controller('MyCommentsCtrl', function($scope, $stateParams, MFPInit) {
+  appCtrl.controller('MyCommentsCtrl', function($scope, $stateParams, MFPInit, Auth) {
     // alert("MyCommentsCtrl执行");
+    
+    $scope.userID = Auth.getUserID().userID;
+    
+    var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getStudentQuestion/"+$scope.userID;
+    var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+    req.send().then(function(resp){
+      // alert(JSON.parse(resp.responseText));
+      $scope.questions = JSON.parse(resp.responseText);
+      // alert("1req-lesson:" + $scope.lessons);
+    });
+    
+    $scope.removeQuestion = function(question) {
+      // alert("删除提问" + question.lesson_question_id);
+      $scope.userID = Auth.getUserID().userID;
+      // alert("我要取消订阅它！！"+$scope.userID+"--"+lesson.id);
+      var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/deleteQuestion/" + question.lesson_question_id;
+      var req = new WLResourceRequest(adapterURL, WLResourceRequest.DELETE);
+      req.send().then(function(resp){
+        // alert("111resp.status:" + resp.status);
+        if(resp.status == 200){
+          showAlert("成功","删除该提问成功。");
+          var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/deleteQuestionComment/" + question.lesson_question_id;
+          var req = new WLResourceRequest(adapterURL, WLResourceRequest.DELETE);
+          req.send().then(function(resp){});
+          var adapterURL = "http://localhost:9080/mfp/api/adapters/JavaSQL/API/getStudentQuestion/"+$scope.userID;
+            var req = new WLResourceRequest(adapterURL, WLResourceRequest.GET);
+            req.send().then(function(resp){
+              // alert(JSON.parse(resp.responseText));
+              $scope.questions = JSON.parse(resp.responseText);
+              // alert("1req-lesson:" + $scope.lessons);
+            });
+        } else {
+          showAlert("失败","删除该提问失败，请重试");
+        }
+      });
+    }
   });
   
   
